@@ -594,6 +594,7 @@ button {
 .skill-card,
 .project-card,
 .timeline-content,
+.certification-card,
 .card-panel,
 .contact-box,
 .mini-stats li {
@@ -625,12 +626,32 @@ button {
 .skill-card:hover,
 .project-card:hover,
 .timeline-content:hover,
+.certification-card:hover,
 .card-panel:hover,
 .contact-box:hover,
 .mini-stats li:hover {
   --lift: -10px;
   box-shadow: 0 40px 100px rgba(4, 9, 18, 0.7);
   border-color: rgba(139, 92, 246, 0.35);
+}
+
+.project-card:hover h3,
+.timeline-content:hover h3,
+.certification-card:hover h3,
+.card-panel:hover h3,
+.contact-box:hover h3,
+.mini-stats li:hover strong {
+  color: var(--cyan);
+  transition: color 0.25s ease;
+}
+
+.project-card:hover,
+.timeline-content:hover,
+.certification-card:hover,
+.card-panel:hover,
+.contact-box:hover,
+.mini-stats li:hover {
+  box-shadow: 0 28px 65px rgba(4, 9, 18, 0.72), 0 0 24px rgba(70, 215, 255, 0.08);
 }
 
 .profile-badge {
@@ -805,17 +826,63 @@ button {
 }
 
 .skill-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   background: linear-gradient(180deg, rgba(24, 35, 57, 0.88), rgba(11, 18, 30, 0.88));
   border: 1px solid var(--line);
-  border-radius: 22px;
-  padding: 1.7rem;
+  border-radius: 18px;
+  padding: 1.8rem 1.6rem 1.6rem;
   box-shadow: var(--shadow);
+}
+
+.skill-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  background: linear-gradient(90deg, var(--cyan), var(--lime));
+  opacity: 0.7;
+  transition: opacity 0.25s ease, height 0.25s ease;
+}
+
+.skill-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 70%;
+  height: 100%;
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+  transform: skewX(-18deg);
+  transition: left 0.65s ease;
+  pointer-events: none;
+}
+
+.skill-card:hover {
+  border-color: rgba(70, 215, 255, 0.4);
+  box-shadow: 0 26px 60px rgba(4, 9, 18, 0.65), 0 0 28px rgba(70, 215, 255, 0.08);
+}
+
+.skill-card:hover::before {
+  height: 4px;
+  opacity: 1;
+}
+
+.skill-card:hover::after {
+  left: 140%;
 }
 
 .skill-card h3 {
   margin-top: 0;
   margin-bottom: 1rem;
   font-size: 1.5rem;
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.skill-card:hover h3 {
+  color: var(--cyan);
+  transform: translateX(4px);
 }
 
 .tags {
@@ -833,6 +900,15 @@ button {
   border: 1px solid rgba(255, 255, 255, 0.06);
   color: var(--muted);
   font-size: 1rem;
+  transition: transform 0.2s ease, color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.tags span:hover {
+  transform: translateY(-4px);
+  color: var(--text);
+  background: rgba(70, 215, 255, 0.12);
+  border-color: rgba(70, 215, 255, 0.38);
+  box-shadow: 0 8px 18px rgba(3, 11, 22, 0.3);
 }
 
 .project-grid {
@@ -981,12 +1057,21 @@ button {
   font-size: 1.7rem;
 }
 
-.education-image {
+.education-image-wrap {
+  position: relative;
   grid-column: 1;
   grid-row: 1 / span 4;
   width: 100%;
   height: 320px;
   margin: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: zoom-in;
+}
+
+.education-image {
+  width: 100%;
+  height: 100%;
   display: block;
   object-fit: cover;
   object-position: center;
@@ -999,6 +1084,30 @@ button {
 .timeline-content:hover .education-image {
   transform: scale(1.035);
   filter: saturate(1.08) brightness(1.04);
+}
+
+.education-image-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 1rem;
+  transform: translateX(-50%);
+  padding: 0.5rem 0.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  background: rgba(5, 9, 20, 0.78);
+  color: var(--text);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  pointer-events: none;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+
+.timeline-content:hover .education-image-hint {
+  background: rgba(70, 215, 255, 0.18);
+  border-color: rgba(70, 215, 255, 0.55);
+  transform: translateX(-50%) translateY(-4px);
 }
 
 .education-image:fullscreen {
@@ -1036,6 +1145,9 @@ button {
 }
 
 .certification-card {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
   display: flex;
   align-items: flex-start;
   gap: 1.1rem;
@@ -1045,6 +1157,27 @@ button {
   border-radius: 18px;
   background: linear-gradient(145deg, rgba(24, 43, 56, 0.82), rgba(10, 20, 30, 0.86));
   box-shadow: var(--shadow);
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+
+.certification-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  background: linear-gradient(90deg, var(--rose), var(--cyan));
+  opacity: 0.65;
+  transition: opacity 0.25s ease, height 0.25s ease;
+}
+
+.certification-card:hover {
+  border-color: rgba(255, 111, 181, 0.42);
+  background: linear-gradient(145deg, rgba(31, 51, 67, 0.92), rgba(10, 20, 30, 0.94));
+}
+
+.certification-card:hover::before {
+  height: 4px;
+  opacity: 1;
 }
 
 .certification-icon {
@@ -1057,6 +1190,50 @@ button {
   background: rgba(98, 210, 232, 0.14);
   color: var(--cyan);
   font-size: 1.1rem;
+  transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease;
+}
+
+.cert-logo {
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.cert-logo-a360 {
+  font-size: 0.68rem;
+}
+
+.cert-logo-github {
+  font-size: 1.45rem;
+  line-height: 1;
+}
+
+.cert-logo-aa,
+.cert-logo-a360 {
+  color: #18a79a;
+}
+
+.cert-logo-ls {
+  color: #f0a83b;
+}
+
+.cert-logo-mdb {
+  color: #45ad55;
+}
+
+.cert-logo-nptel {
+  color: #e66b3d;
+  font-size: 1.35rem;
+}
+
+.cert-logo-oracle {
+  color: #e33b45;
+}
+
+.certification-card:hover .certification-icon {
+  transform: rotate(-6deg) scale(1.08);
+  background: rgba(255, 111, 181, 0.16);
+  color: var(--rose);
 }
 
 .certification-card h3 {
@@ -1077,6 +1254,12 @@ button {
   color: var(--lime);
   font-size: 0.95rem;
   font-weight: 700;
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.certification-card:hover .certification-path {
+  color: var(--cyan);
+  transform: translateX(4px);
 }
 
 .timeline-content p + p {
@@ -1093,12 +1276,22 @@ button {
 
 .semester-cgpa span,
 .academic-result {
+  display: inline-block;
   padding: 0.45rem 0.65rem;
   border: 1px solid rgba(142, 241, 200, 0.25);
   border-radius: 8px;
   background: rgba(142, 241, 200, 0.08);
   color: var(--muted);
   font-size: 0.84rem;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.semester-cgpa span:hover,
+.academic-result:hover {
+  transform: translateY(-4px) scale(1.04);
+  border-color: var(--lime);
+  background: rgba(142, 241, 200, 0.16);
+  box-shadow: 0 8px 18px rgba(8, 25, 28, 0.35);
 }
 
 .semester-cgpa strong,
@@ -1139,6 +1332,7 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.55rem;
   padding: 0.9rem 1.2rem;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.04);
@@ -1146,6 +1340,27 @@ button {
   color: var(--text);
   font-weight: 600;
   transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.contact-icon {
+  display: inline-grid;
+  flex: 0 0 auto;
+  width: 1.15rem;
+  height: 1.15rem;
+  place-items: center;
+  color: var(--cyan);
+}
+
+.contact-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.leetcode-mark {
+  width: auto;
+  font-size: 0.92rem;
+  font-weight: 800;
+  letter-spacing: -0.08em;
 }
 
 .contact-links a:hover {
@@ -1261,7 +1476,7 @@ button {
     display: block;
   }
 
-  .education-image {
+  .education-image-wrap {
     margin-top: 1rem;
   }
 

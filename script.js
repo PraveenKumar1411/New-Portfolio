@@ -1,7 +1,17 @@
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+
+if (window.location.hash) {
+  window.history.replaceState(null, document.title, `${window.location.pathname}${window.location.search}`);
+}
+
+window.scrollTo(0, 0);
+
 const navToggle = document.querySelector('.nav-toggle');
 const navMenu = document.querySelector('.nav-menu');
 const yearEl = document.getElementById('year');
-const tiltElements = document.querySelectorAll('.profile-card, .skill-card, .project-card, .timeline-content, .card-panel, .contact-box, .mini-stats li');
+const tiltElements = document.querySelectorAll('.profile-card, .skill-card, .project-card, .timeline-content, .certification-card, .card-panel, .contact-box, .mini-stats li');
 const educationImages = document.querySelectorAll('.education-image');
 const introScreen = document.querySelector('.intro-screen');
 const cursorDot = document.querySelector('.cursor-dot');
@@ -103,7 +113,7 @@ if (cursorDot && cursorRing && window.matchMedia('(pointer: fine)').matches) {
     cursorY = event.clientY;
   });
 
-  document.querySelectorAll('a, button, img').forEach((element) => {
+  document.querySelectorAll('a, button, img, .skill-card, .project-card, .timeline-content, .certification-card, .card-panel, .contact-box, .mini-stats li, .tags span, .semester-cgpa span').forEach((element) => {
     element.addEventListener('pointerenter', () => cursorRing.classList.add('is-hovering'));
     element.addEventListener('pointerleave', () => cursorRing.classList.remove('is-hovering'));
   });
