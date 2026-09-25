@@ -465,6 +465,10 @@ button {
   color: transparent;
 }
 
+.hero h1 .typing-text {
+  display: inline;
+}
+
 .typing-cursor {
   display: inline-block;
   margin-left: 0.15rem;

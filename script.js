@@ -30,9 +30,10 @@ revealSections.forEach((section) => revealObserver.observe(section));
 
 if (typingText) {
   const typingPhrases = [
-    'I am a Full Stack Developer.',
-    'I build modern digital experiences.',
-    'I solve problems with code.'
+    'I build ideas into modern digital experiences.',
+    'I turn code into meaningful products.',
+    'I solve real problems with technology.',
+    'I am learning, building, and growing every day.'
   ];
   let phraseIndex = 0;
   let characterIndex = 0;
