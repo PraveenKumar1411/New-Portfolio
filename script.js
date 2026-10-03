@@ -139,6 +139,68 @@ if (navToggle && navMenu) {
   });
 }
 
+const sectionLinks = document.querySelectorAll('.nav-menu a[href^="#"]');
+let sectionTransitionActive = false;
+
+const openSectionWithTransition = (sectionId) => {
+  const section = document.getElementById(sectionId);
+  const sectionTitle = section?.querySelector('.eyebrow')?.textContent.trim();
+
+  if (!section || !sectionTitle || sectionTransitionActive) {
+    return;
+  }
+
+  sectionTransitionActive = true;
+  const transition = document.createElement('div');
+  const content = document.createElement('div');
+  const mark = document.createElement('span');
+  const title = document.createElement('div');
+  transition.className = 'section-transition';
+  transition.setAttribute('aria-label', `Opening ${sectionTitle}`);
+  content.className = 'section-transition-content';
+  mark.className = `section-transition-mark section-transition-mark-${sectionId}`;
+  mark.setAttribute('aria-hidden', 'true');
+  mark.textContent = sectionId === 'certifications' ? 'CERT' : sectionId === 'education' ? 'EDU' : sectionTitle.slice(0, 3).toUpperCase();
+  title.className = 'section-transition-title';
+  title.textContent = sectionTitle;
+  content.append(mark, title);
+  transition.append(content);
+  document.body.append(transition);
+  document.body.classList.add('intro-active');
+
+  window.requestAnimationFrame(() => {
+    transition.classList.add('is-live');
+  });
+
+  window.history.pushState({}, document.title, `#${sectionId}`);
+
+  window.setTimeout(() => {
+    transition.classList.add('is-opening');
+  }, 560);
+
+  window.setTimeout(() => {
+    transition.remove();
+    document.body.classList.remove('intro-active');
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    sectionTransitionActive = false;
+  }, 1350);
+};
+
+sectionLinks.forEach((link) => {
+  link.addEventListener('click', (event) => {
+    const sectionId = link.getAttribute('href')?.slice(1);
+
+    if (sectionId === 'home') {
+      return;
+    }
+
+    if (sectionId && document.getElementById(sectionId)) {
+      event.preventDefault();
+      openSectionWithTransition(sectionId);
+    }
+  });
+});
+
 if (tiltElements.length) {
   tiltElements.forEach((card) => {
     card.addEventListener('pointermove', (event) => {
