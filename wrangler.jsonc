@@ -1,9 +1,0 @@
-{
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "praveenkumar1411",
-  "compatibility_date": "2026-10-06",
-  "assets": {
-    "directory": "."
-  },
-  "workers_dev": true
-}
